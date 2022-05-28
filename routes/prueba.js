@@ -10,6 +10,7 @@ router.get('/prueba', (req,res)=>{
 });
 
 router.post('/', async (req,res) => {
+    response.setHeader("Access-Control-Allow-Origin", "*");
     res.json(req.body);
     console.log(req.body);
 })
