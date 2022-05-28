@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv/config');
 const mongoose = require('mongoose');
+app.use(bodyParser.json());
+
 
 //IMPORTAR RUTAS
 const pruebaRuta = require('./routes/prueba')
@@ -14,7 +16,7 @@ mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true,useUnifiedTop
 //MIDDLEWARES
 app.use(cors());
 app.use('/', pruebaRuta);
-app.use(bodyParser.json());
+
 
 
 //SETTINGS

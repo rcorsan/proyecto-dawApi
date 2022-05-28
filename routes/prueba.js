@@ -10,15 +10,8 @@ router.get('/prueba', (req,res)=>{
 });
 
 router.post('/', async (req,res) => {
+    res.json(req.body);
     console.log(req.body);
-    /*const { username, password }= req.body;
-    const fuser = await User.findOne({username: username});
-    if(fuser){
-        console.log('existe el user');
-    }else{
-        console.log('no existe el user');
-    }*/
-
 })
 
 
