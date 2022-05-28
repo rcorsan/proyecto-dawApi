@@ -14,7 +14,12 @@ const pruebaRuta = require('./routes/prueba')
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true,useUnifiedTopology: true}).then(console.log('conectado a la base de datos')).catch(err => console.error(err));
 
 //MIDDLEWARES
-app.use(cors());
+const corsOptions ={
+    origin:'*', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200,
+ }
+app.use(cors(corsOptions));
 app.use('/', pruebaRuta);
 
 
