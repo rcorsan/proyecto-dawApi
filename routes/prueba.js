@@ -37,6 +37,8 @@ router.post('/login', async (req,res)=>{
         if(fuser.password != password){
             res.send('El usuario o la contraseña no son correctos');
         }else{
+            res.setHeader();
+            res.header();
             res.send('el usuario');
             res.json(fuser);
         }
