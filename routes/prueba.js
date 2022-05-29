@@ -32,7 +32,7 @@ router.get('/equipments', async (req,res)=>{
 });
 router.post('/login', async (req,res)=>{
     const { name, password } = req.body;
-    const fuser = await User.findOne({username: name});
+    const fuser = await User.findOne({name: name});
     if(fuser){
         if(!fuser.password == password){
             res.send('Usuario y contraseña no coinciden');
@@ -46,7 +46,7 @@ router.post('/login', async (req,res)=>{
 
 router.post('/signup', async (req,res)=>{
     const { name, password } = req.body;
-    const fuser = await User.findOne({username: name});
+    const fuser = await User.findOne({name: name});
     if(fuser){
         res.send('El usuario ya existe, inicia sesion')
     }else{
