@@ -37,7 +37,7 @@ router.post('/login', async (req,res)=>{
         if(fuser.password != password){
             res.send('El usuario o la contraseña no son correctos');
         }else{
-            res.send(JSON.stringify(fuser));
+            res.send(JSON.stringify(fuser.session));
         }
     }else{
         res.send('El usuario o la contraseña no son correctos');
@@ -51,8 +51,11 @@ router.post('/signup', async (req,res)=>{
         res.send('El usuario ya existe, inicia sesion')
     }else{
         const newUser = new User();
-        newUser.username = name;
+        newUser.name = name;
         newUser.password = password;
+        newUser.session.name = name;
+        newUser.session.maxScore = 0;
+        newUser.session.image = "caro-asercion/prank-glasses.svg"
         await newUser.save();
         res.send('Usuario creado correctamente!');
     }
