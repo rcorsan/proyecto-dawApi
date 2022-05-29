@@ -37,6 +37,7 @@ router.post('/login', async (req,res)=>{
         if(!fuser.password == password){
             res.send('Usuario y contraseña no coinciden');
         }else{
+            res.send('el usuario');
             res.send(fuser.session);
         }
     }else{
