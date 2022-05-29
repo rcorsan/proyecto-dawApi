@@ -5,18 +5,7 @@ const skillsSchema = mongoose.Schema({
     descripcion: String,
     explicacion: String,
     coste: Number,
-    requisitos: {
-        fuerza: Number,
-        magia: Number,
-        defensa: Number,
-        resistencia: Number,
-        destreza: Number,
-        suerte: Number,
-        vitalidad: Number,
-        espiritu: Number,
-        nivel: Number
-
-    },
+    requisitos: Object,
     equipo: String,
     imagen: String  
 });

@@ -3,17 +3,7 @@ const mongoose = require('mongoose');
 const eqSchema = mongoose.Schema({
     nombre: String,
     descripcion: String,
-    estadisticas: {
-        fuerza: Number,
-        magia: Number,
-        defensa: Number,
-        resistencia: Number,
-        destreza: Number,
-        suerte: Number,
-        vitalidad: Number,
-        espiritu: Number
-
-    },
+    estadisticas: Object,
     precio: Number,
     clase: String,
     tipo: String,
