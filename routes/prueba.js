@@ -34,7 +34,7 @@ router.post('/login', async (req,res)=>{
     const { name, password } = req.body;
     const fuser = await User.findOne({name: name});
     if(fuser){
-        if(!fuser.password == password){
+        if(fuser.password != password){
             res.send('El usuario o la contraseña no son correctos');
         }else{
             res.send('el usuario');
