@@ -30,6 +30,34 @@ router.get('/equipments', async (req,res)=>{
     const fequi= await equpments.find();
     res.json(fequi);
 });
+router.post('/login', async (req,res)=>{
+    const { name, password } = req.body;
+    const fuser = await User.findOne({username: name});
+    if(fuser){
+        if(!fuser.password == password){
+            res.send('Usuario y contraseña no coinciden');
+        }else{
+            res.send(fuser.session);
+        }
+    }else{
+        res.send('El usuario no se encuentra');
+    }
+});
+
+router.post('/signup', async (req,res)=>{
+    const { name, password } = req.body;
+    const fuser = await User.findOne({username: name});
+    if(fuser){
+        res.send('El usuario ya existe, inicia sesion')
+    }else{
+        const newUser = new User();
+        newUser.username = name;
+        newUser.password = password;
+        await newUser.save();
+        res.send('Usuario creado correctamente!');
+    }
+});
+
 
 router.post('/', (req,res) => {
     res.header('Access-Control-Allows-Origin', '*');
