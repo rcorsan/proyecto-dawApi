@@ -9,9 +9,9 @@ router.get('/prueba', (req,res)=>{
     res.send('Estamos en prueba');
 });
 
-router.post('/', async (req,res) => {
+router.post('/', (req,res) => {
     res.header('Access-Control-Allows-Origin', '*');
-    res.json(req.body);
+    res.send('funciona');
     console.log(req.body);
 })
 
