@@ -38,7 +38,7 @@ router.post('/login', async (req,res)=>{
             res.send('El usuario o la contraseña no son correctos');
         }else{
             res.send('el usuario');
-            res.send(fuser.session);
+            res.send(fuser);
         }
     }else{
         res.send('El usuario o la contraseña no son correctos');
