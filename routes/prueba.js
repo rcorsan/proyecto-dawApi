@@ -4,7 +4,7 @@ const User = require('../models/user');
 const consumables = require('../models/consumables');
 const enemies = require('../models/enemies');
 const skills = require('../models/skills');
-const equpment = require('../models/equipments');
+const equpments = require('../models/equipments');
 
 const router = express.Router();
 router.get('/', (req,res)=>{
@@ -25,9 +25,9 @@ router.get('/skills', async (req,res)=>{
     const fsk= await skills.find();
     res.json(fsk);
 });
-router.get('/equipment', async (req,res)=>{
+router.get('/equipments', async (req,res)=>{
     //res.json(JSON.stringify(await consumables.find()));
-    const fequi= await equpment.find();
+    const fequi= await equpments.find();
     res.json(fequi);
 });
 
