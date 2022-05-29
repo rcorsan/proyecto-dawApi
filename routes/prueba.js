@@ -10,8 +10,10 @@ const router = express.Router();
 router.get('/', (req,res)=>{
     res.send('pagina principal');
 });
-router.get('/consumables', (req,res)=>{
-    res.json(consumables.find());
+router.get('/consumables', async (req,res)=>{
+    //res.json(JSON.stringify(await consumables.find()));
+    const fcon= await consumables.find();
+    res.json(fcon);
 });
 
 router.post('/', (req,res) => {
