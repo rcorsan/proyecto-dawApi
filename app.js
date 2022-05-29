@@ -1,15 +1,11 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-//const cors = require('cors');
+const cors = require('cors');
 require('dotenv/config');
 const mongoose = require('mongoose');
 app.use(bodyParser.json());
-app.use(function(req,res,next){
-    res.header('Access-Control-Allows-Origin', '*');
-    res.header('Access-Control-Allows-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allows-Headers', 'Content-Type');
-});
+app.use(cors());
 
 
 //IMPORTAR RUTAS
