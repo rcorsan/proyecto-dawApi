@@ -53,9 +53,12 @@ router.post('/signup', async (req,res)=>{
         const newUser = new User();
         newUser.name = name;
         newUser.password = password;
-        newUser.session.name = name;
-        newUser.session.maxScore = 0;
-        newUser.session.image = "caro-asercion/prank-glasses.svg"
+        newUser.session = {
+            "name": name,
+            "maxScore":0,
+            "image": "caro-asercion/prank-glasses.svg"
+        };
+       
         await newUser.save();
         res.send('Usuario creado correctamente!');
     }
