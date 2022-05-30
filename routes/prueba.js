@@ -53,14 +53,14 @@ router.post('/signup', async (req,res)=>{
     const femail = await User.findOne({email:email});
     if(fuser){
         return res.send('error');
-    }if(femail){
-       return res.send('error2');
+    }else if(femail){
+        return res.send('error2');
     }else{
         const newUser = new User();
         newUser.name = name;
         newUser.password = password;
         newUser.email = email;
-        newUser.code = Math.floor(Math.random() * 999999);
+        //newUser.code = Math.floor(Math.random() * 999999);
         newUser.session = {
             "name": name,
             "maxScore":0,
