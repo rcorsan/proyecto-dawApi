@@ -35,12 +35,12 @@ router.post('/login', async (req,res)=>{
     const fuser = await User.findOne({name: name});
     if(fuser){
         if(fuser.password != password){
-            res.send('El usuario o la contraseña no son correctos');
+            res.send('error');
         }else{
             res.send(JSON.stringify(fuser.session));
         }
     }else{
-        res.send('El usuario o la contraseña no son correctos');
+        res.send('error');
     }
 });
 
@@ -48,7 +48,7 @@ router.post('/signup', async (req,res)=>{
     const { name, password } = req.body;
     const fuser = await User.findOne({name: name});
     if(fuser){
-        res.send('El usuario ya existe, inicia sesion')
+        res.send('error');
     }else{
         const newUser = new User();
         newUser.name = name;
