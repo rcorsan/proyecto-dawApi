@@ -52,10 +52,9 @@ router.post('/signup', async (req,res)=>{
     const fuser = await User.findOne({name: name});
     const femail = await User.findOne({email:email});
     if(fuser){
-        res.send('error');
-        response.end();
+        return res.send('error');
     }if(femail){
-        res.send('error2');
+       return res.send('error2');
     }else{
         const newUser = new User();
         newUser.name = name;
@@ -69,7 +68,7 @@ router.post('/signup', async (req,res)=>{
         };
        
         await newUser.save();
-        res.send(JSON.stringify(newUser.session));
+       return res.send(JSON.stringify(newUser.session));
     }
 });
 
