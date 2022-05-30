@@ -5,6 +5,7 @@ const consumables = require('../models/consumables');
 const enemies = require('../models/enemies');
 const skills = require('../models/skills');
 const equpments = require('../models/equipments');
+const helps = require('../models/helps');
 
 const router = express.Router();
 router.get('/', (req,res)=>{
@@ -29,6 +30,11 @@ router.get('/equipments', async (req,res)=>{
     //res.json(JSON.stringify(await consumables.find()));
     const fequi= await equpments.find();
     res.json(fequi);
+});
+router.get('/helps', async (req,res)=>{
+    //res.json(JSON.stringify(await consumables.find()));
+    const fhelp= await helps.find();
+    res.json(fhelp);
 });
 router.post('/login', async (req,res)=>{
     const { name, password } = req.body;
@@ -60,7 +66,7 @@ router.post('/signup', async (req,res)=>{
         };
        
         await newUser.save();
-        res.send('Usuario creado correctamente!');
+        res.send(JSON.stringify(newUser.session));
     }
 });
 
