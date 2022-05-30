@@ -12,28 +12,24 @@ router.get('/', (req,res)=>{
     res.send('pagina principal');
 });
 router.get('/consumables', async (req,res)=>{
-    //res.json(JSON.stringify(await consumables.find()));
     const fcon= await consumables.find();
     res.json(fcon);
 });
 router.get('/enemies', async (req,res)=>{
-    //res.json(JSON.stringify(await consumables.find()));
     const fen= await enemies.find();
     res.json(fen);
 });
 router.get('/skills', async (req,res)=>{
-    //res.json(JSON.stringify(await consumables.find()));
     const fsk= await skills.find();
     res.json(fsk);
 });
 router.get('/equipments', async (req,res)=>{
-    //res.json(JSON.stringify(await consumables.find()));
     const fequi= await equpments.find();
     res.json(fequi);
 });
 router.get('/helps', async (req,res)=>{
-    //res.json(JSON.stringify(await consumables.find()));
     const fhelp= await helps.find();
+    console.log(fhelp);
     res.json(fhelp);
 });
 router.post('/login', async (req,res)=>{
