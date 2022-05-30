@@ -47,14 +47,18 @@ router.post('/login', async (req,res)=>{
 });
 
 router.post('/signup', async (req,res)=>{
-    const { name, password } = req.body;
+    const { name,email, password } = req.body;
     const fuser = await User.findOne({name: name});
+    const femail = await User.findOne({email:email});
     if(fuser){
         res.send('error');
+    }if(femail){
+        res.send('error2');
     }else{
         const newUser = new User();
         newUser.name = name;
         newUser.password = password;
+        newUser.email = email;
         newUser.session = {
             "name": name,
             "maxScore":0,
