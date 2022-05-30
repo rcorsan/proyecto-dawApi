@@ -6,6 +6,7 @@ const enemies = require('../models/enemies');
 const skills = require('../models/skills');
 const equpments = require('../models/equipments');
 const helps = require('../models/helps');
+const { response } = require('express');
 
 const router = express.Router();
 router.get('/', (req,res)=>{
@@ -47,11 +48,12 @@ router.post('/login', async (req,res)=>{
 });
 
 router.post('/signup', async (req,res)=>{
-    const { name,email, password } = req.body;
+    const { name, email, password } = req.body;
     const fuser = await User.findOne({name: name});
     const femail = await User.findOne({email:email});
     if(fuser){
         res.send('error');
+        response.end();
     }if(femail){
         res.send('error2');
     }else{
@@ -59,6 +61,7 @@ router.post('/signup', async (req,res)=>{
         newUser.name = name;
         newUser.password = password;
         newUser.email = email;
+        newUser.code = Math.floor(Math.random() * 999999);
         newUser.session = {
             "name": name,
             "maxScore":0,
