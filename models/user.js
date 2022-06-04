@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
     password: {type:String, required:true},
     session: Object,
     email: String,
-    code: Number
+    code: Number,
+    maxScore: Number
 });
 
 module.exports = mongoose.model('users', userSchema);

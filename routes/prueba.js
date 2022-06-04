@@ -60,10 +60,12 @@ router.post('/signup', async (req,res)=>{
         newUser.name = name;
         newUser.password = password;
         newUser.email = email;
-        //newUser.code = Math.floor(Math.random() * 999999);
+        newUser.maxScore = 0;
+        newUser.code = Math.floor(Math.random() * 999999);
         newUser.session = {
             "name": name,
-            "maxScore":0,
+            "score": 0,
+            "playing": false,
             "image": "caro-asercion/prank-glasses.svg"
         };
        
