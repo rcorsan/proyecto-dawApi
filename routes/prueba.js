@@ -57,6 +57,8 @@ router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
     const fuser = await User.findOne({name: name});
     const femail = await User.findOne({email:email});
+    const pwd = await bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+    console.log(pwd);
     if(fuser){
         return res.send('error');
     }else if(femail){
@@ -64,7 +66,7 @@ router.post('/signup', async (req,res)=>{
     }else{
         const newUser = new User();
         newUser.name = name;
-        newUser.password = await bcrypt.hashSync(password, bcrypt.genSaltSync(8));
+        newUser.password = pwd;
         newUser.email = email;
         newUser.maxScore = 0;
         newUser.code = Math.floor(Math.random() * 999999);
