@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
 const User = require('../models/user');
 const consumables = require('../models/consumables');
 const enemies = require('../models/enemies');
@@ -33,11 +34,16 @@ router.get('/helps', async (req,res)=>{
     console.log(fhelp);
     res.json(fhelp);
 });
+router.get('/users', async (req,res)=>{
+    const fuser= await User.find();
+    console.log(fuser);
+    res.json(fuser);
+});
 router.post('/login', async (req,res)=>{
     const { name, password } = req.body;
     const fuser = await User.findOne({name: name});
     if(fuser){
-        if(fuser.password != password){
+        if(!bcrypt.compareSync(password,fuser.password)){
             res.send('error');
         }else{
             res.send(JSON.stringify(fuser.session));
@@ -58,7 +64,7 @@ router.post('/signup', async (req,res)=>{
     }else{
         const newUser = new User();
         newUser.name = name;
-        newUser.password = password;
+        newUser.password = await bcrypt.hashSync(password, bcrypt.genSaltSync(8));
         newUser.email = email;
         newUser.maxScore = 0;
         newUser.code = Math.floor(Math.random() * 999999);
