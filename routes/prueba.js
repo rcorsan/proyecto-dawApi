@@ -56,8 +56,7 @@ router.post('/login', async (req,res)=>{
 
 router.post('/session', async (req,res) =>{
     const filter = { name: req.body.name };
-    const session = req.body;
-    const update = { session: session };
+    const update = { session: req.body };
     await User.findOneAndUpdate(filter, update);
 });
 router.post('/signup', async (req,res)=>{
