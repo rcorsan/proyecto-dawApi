@@ -55,6 +55,7 @@ router.post('/login', async (req,res)=>{
 
 
 router.post('/session', async (req,res) =>{
+    res.header('Access-Control-Allows-Origin', '*');
     const {name} = req.body;
     const fuser = await User.findOne({name: name}); 
     const session = req.body;
