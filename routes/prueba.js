@@ -55,6 +55,7 @@ router.post('/login', async (req,res)=>{
 
 
 router.post('/session', async (req,res) =>{
+    res.header('Access-Control-Allow-Origin', '*');
     const fuser = await User.findOne({name: req.body.name}); 
     const user = new User({
     _id: fuser._id,
@@ -102,7 +103,7 @@ router.post('/signup', async (req,res)=>{
 
 
 router.post('/', (req,res) => {
-    res.header('Access-Control-Allows-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
     res.send('funciona');
     console.log(req.body);
 })
