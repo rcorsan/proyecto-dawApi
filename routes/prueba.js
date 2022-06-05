@@ -56,10 +56,15 @@ router.post('/login', async (req,res)=>{
 
 router.post('/session', async (req,res) =>{
     res.header('Access-Control-Allows-Origin', '*');
-    const {name} = req.body;
+    const {name,score,playing,character,room,image} = req.body;
     const fuser = await User.findOne({name: name}); 
-    const session = req.body;
-    fuser.session = session;
+    fuser.session.score= score;
+    fuser.session.playing = playing;
+    fuser.session.character = character;
+    fuser.session.room = room;
+    fuser.session.image = image;
+    console.log(fuser);
+    await fuser.update();
     res.send('sesion actualizada');
 
 });
