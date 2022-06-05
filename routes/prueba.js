@@ -56,6 +56,7 @@ router.post('/login', async (req,res)=>{
 
 router.post('/session', async (req,res) =>{
     const fuser = await User.findOne({name: req.body.name}); 
+    console.log(fuser);
     const session = req.body;
     fuser.session = session;
     await fuser.save();
