@@ -53,12 +53,18 @@ router.post('/login', async (req,res)=>{
     }
 });
 
+
+router.post('/session', async (req,res) =>{
+    const fuser = await User.findOne({name: name}); 
+    const session = req.body;
+    fuser.session = session;
+});
 router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
     const fuser = await User.findOne({name: name});
     const femail = await User.findOne({email:email});
     const pwd = await bcrypt.hashSync(password, bcrypt.genSaltSync(8));
-    console.log(pwd);
+    console.log(pwd); 
     if(fuser){
         return res.send('error');
     }else if(femail){
@@ -74,6 +80,8 @@ router.post('/signup', async (req,res)=>{
             "name": name,
             "score": 0,
             "playing": false,
+            "character": {},
+            "room":{},
             "image": "caro-asercion/prank-glasses.svg"
         };
        
