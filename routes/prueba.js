@@ -55,18 +55,10 @@ router.post('/login', async (req,res)=>{
 
 
 router.post('/session', async (req,res) =>{
-    res.header('Access-Control-Allow-Origin', '*');
-    const {name,score,playing,character,room,image} = req.body;
-    const fuser = await User.findOne({name: name}); 
-    fuser.session.score= score;
-    fuser.session.playing = playing;
-    fuser.session.character = character;
-    fuser.session.room = room;
-    fuser.session.image = image;
-    console.log(fuser);
-    await fuser.save();
-    res.send('sesion actualizada');
-
+    const filter = { name: req.body.name };
+    const session = req.body;
+    const update = { session: session };
+    await User.findOneAndUpdate(filter, update);
 });
 router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
@@ -101,7 +93,7 @@ router.post('/signup', async (req,res)=>{
 
 
 router.post('/', (req,res) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allows-Origin', '*');
     res.send('funciona');
     console.log(req.body);
 })
