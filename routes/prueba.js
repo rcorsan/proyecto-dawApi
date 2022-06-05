@@ -64,7 +64,7 @@ router.post('/session', async (req,res) =>{
     fuser.session.room = room;
     fuser.session.image = image;
     console.log(fuser);
-    await fuser.update();
+    await fuser.updateOne();
     res.send('sesion actualizada');
 
 });
