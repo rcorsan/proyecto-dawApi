@@ -59,6 +59,8 @@ router.post('/session', async (req,res) =>{
     const fuser = await User.findOne({name: name}); 
     const session = req.body;
     fuser.session = session;
+    res.send('sesion actualizada');
+
 });
 router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
