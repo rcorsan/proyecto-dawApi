@@ -59,7 +59,7 @@ router.post('/session', async (req,res) =>{
     const {name} = req.body;
     const fuser = await User.findOne({name: name}); 
     const session = req.body;
-    fuser.session = JSON.parse(session);
+    fuser.session = session;
     res.send('sesion actualizada');
 
 });
