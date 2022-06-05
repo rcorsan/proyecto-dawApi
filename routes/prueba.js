@@ -56,11 +56,19 @@ router.post('/login', async (req,res)=>{
 
 router.post('/session', async (req,res) =>{
     const fuser = await User.findOne({name: req.body.name}); 
-    console.log(fuser);
-    const session = req.body;
-    fuser.session = session;
-    await fuser.save();
+    const user = new User({
+    _id: fuser._id,
+    name: fuser.name,
+    password: fuser.password,
+    session: req.body,
+    email: fuser.email,
+    code: fuser.code,
+    maxScore: fuser.maxScore
+    });
+    User.updateOne({name: req.body.name}, user);
+    res.send('update');
 });
+
 router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
     const fuser = await User.findOne({name: name});
