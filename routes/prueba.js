@@ -57,7 +57,7 @@ router.post('/login', async (req,res)=>{
 router.post('/session', async (req,res) =>{
     res.header('Access-Control-Allow-Origin', '*');
     const fuser = await User.findOne({name: req.body.name}); 
-    const user = new User({
+    const user = User({
     _id: fuser._id,
     name: fuser.name,
     password: fuser.password,
@@ -66,8 +66,11 @@ router.post('/session', async (req,res) =>{
     code: fuser.code,
     maxScore: fuser.maxScore
     });
-    User.updateOne({name: req.body.name}, user);
-    res.send('update');
+    if(fuser){
+        user.save();
+        fuser.delete();
+        res.send("update");
+    }
 });
 
 router.post('/signup', async (req,res)=>{
