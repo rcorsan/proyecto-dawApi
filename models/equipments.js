@@ -1,3 +1,4 @@
+//CREACION DE LOS ESQUEMAS (REGLAS) Y MODELOS 
 const mongoose = require('mongoose');
 
 const eqSchema = mongoose.Schema({
