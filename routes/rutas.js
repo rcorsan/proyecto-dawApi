@@ -8,6 +8,7 @@ const enemies = require('../models/enemies');
 const skills = require('../models/skills');
 const equpments = require('../models/equipments');
 const helps = require('../models/helps');
+const emailer = require('../nodemailer/emailer');
 const router = express.Router();
 
 //RUTAS GET 
@@ -119,6 +120,7 @@ router.post('/signup', async (req,res)=>{
         };
        
         await newUser.save();
+        emailer.sendMail(newUser.email);
        return res.send(JSON.stringify(newUser.session));
     }
 });
