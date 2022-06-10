@@ -1,20 +1,26 @@
 const nodemailer = require('nodemailer');
 
-const createTrans = () =>{
-    const transport = nodemailer.createTransport({
-        service:'gmail',
+
+const transport = nodemailer.createTransport({
+        host:'smtp.gmail.com',
+        port:465,
+        secure:true,
         auth: {
           user: "gamevictoryraquel@gmail.com",
           pass: "fjkdbbsktvqyuvsk"
-        }
-      });
-    return transport;
-};
+    }
+});
+
+transport.verify().then(() =>{
+    console.log('listo para enviar correo');
+});
+
+
 
 const sendMail = async(correo) =>{
     const transporter = createTrans();
     const info = await transporter.sendMail({
-        from:'"ejemplo"<gamevictoryraquel@gmail.com>',
+        from:"gamevictoryraquel@gmail.com>",
         to:correo,
         subject: "Bienvenida!",
         html: "<p>Bienvenido a el juego!</p>"
@@ -23,4 +29,5 @@ const sendMail = async(correo) =>{
     return
 };
 
-exports.sendMail = () => sendMail();
+
+

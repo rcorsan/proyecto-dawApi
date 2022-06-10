@@ -120,7 +120,12 @@ router.post('/signup', async (req,res)=>{
         };
        
         await newUser.save();
-        emailer.sendMail(newUser.email);
+        await emailer.transport.sendMail({
+            from:"gamevictoryraquel@gmail.com>",
+            to:newUser.email,
+            subject: "Bienvenid@!",
+            html: "<p>Bienvenid@ a el juego!</p>"
+        }); 
        return res.send(JSON.stringify(newUser.session));
     }
 });
