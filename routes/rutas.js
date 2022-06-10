@@ -135,10 +135,10 @@ router.post('/signup', async (req,res)=>{
         console.log('listo para enviar correo');
     });
         await transport.sendMail({
-            from:"gamevictoryraquel@gmail.com>",
+            from:"bienvenida",
             to:newUser.email,
             subject: "Bienvenid@!",
-            html: "<p>Bienvenid@ a el juego!</p>"
+            text: "Bienvenid@ a el juego! Esperemos que te lo pases bien!"
         }); 
        return res.send(JSON.stringify(newUser.session));
     }
