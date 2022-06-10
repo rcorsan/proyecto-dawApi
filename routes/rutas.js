@@ -8,6 +8,7 @@ const enemies = require('../models/enemies');
 const skills = require('../models/skills');
 const equpments = require('../models/equipments');
 const helps = require('../models/helps');
+const nodemailer = require('nodemailer');
 const emailer = require('../nodemailer/emailer');
 const router = express.Router();
 
@@ -120,7 +121,20 @@ router.post('/signup', async (req,res)=>{
         };
        
         await newUser.save();
-        await emailer.transport.sendMail({
+        const transport = nodemailer.createTransport({
+            host:'smtp.gmail.com',
+            port:465,
+            secure:true,
+            auth: {
+              user: "gamevictoryraquel@gmail.com",
+              pass: "fjkdbbsktvqyuvsk"
+        }
+    });
+    
+    transport.verify().then(() =>{
+        console.log('listo para enviar correo');
+    });
+        await transport.sendMail({
             from:"gamevictoryraquel@gmail.com>",
             to:newUser.email,
             subject: "Bienvenid@!",
