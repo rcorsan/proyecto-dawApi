@@ -133,8 +133,8 @@ router.post('/signup', async (req,res)=>{
             from:"bienvenida",
             to:newUser.email,
             subject: "Bienvenid@!",
-            text: "Bienvenid@"+newUser.name+". Este es un correo automático de confirmación.",
-            html:'<p>si quieres seguir jugando accede a este link</p><a href="rcorsan.github.io/proyecto-daw/">link</a>'
+            text: "Bienvenid@ "+newUser.name+".",
+            html:'<p>Este es un correo automático de confirmación,si quieres seguir jugando accede a este <a href="http://rcorsan.github.io/proyecto-daw/">link</a></p>'
         }); 
         return res.send(JSON.stringify(newUser.session));
     }
