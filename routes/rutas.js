@@ -1,4 +1,6 @@
-//IMPORTAR MODULOS Y MODELS REQUERIDOS 
+/*
+*IMPORTAR MODULOS Y MODELOS REQUERIDOS 
+*/
 
 const express = require('express');
 const bcrypt = require('bcrypt-nodejs');
@@ -11,13 +13,17 @@ const helps = require('../models/helps');
 const nodemailer = require('nodemailer');
 const router = express.Router();
 
-//RUTAS GET 
+/*
+*RUTAS CON METODO GET 
+*/
 
 router.get('/', (req,res)=>{
     res.send('pagina principal');
 });
 
-//ENVIO DE DATOS DESDE LA BBDD
+/*
+*RUTAS CON METODO GET PARA EL ENVIO DE DATOS DESDE LA BBDD
+*/
 
 router.get('/consumables', async (req,res)=>{
     //FIND DEVUELVE TODOS LOS DATOS ALMACENADOS EN LA COLECCION PASADA, EN ESTE CASO CONSUMABLES
@@ -47,12 +53,14 @@ router.get('/users', async (req,res)=>{
     res.json(fuser);
 });
 
-//RUTAS POST 
+/*
+*RUTAS POST 
+*/
 
 router.post('/login', async (req,res)=>{
     const { name, password } = req.body;
 
-    //ENCUENTRA EN LA BBDD EL USUSARIO CON EL NOMBRE PASADO
+    //ENCUENTRA EN LA BBDD EL USUSARIO CON EL NOMBRE PASADO Y LO GUARDA EN UNA VARIABLE
     const fuser = await User.findOne({name: name});
     if(fuser){
         //COMPARA LA CONTRASEÑA PASADA CON LA ENCRIPTADA EN LA BBDD PARA COMPROBAR SI LA CONTRASEÑA ES CORRECTA
@@ -68,7 +76,10 @@ router.post('/login', async (req,res)=>{
     }
 });
 
-//METODO PARA ACTUALIZAR LA SESSION
+/*
+*METODO PARA ACTUALIZAR LA SESSION
+*/
+
 router.post('/session', async (req,res) =>{
     res.header('Access-Control-Allow-Origin', '*');
     const fuser = await User.findOne({name: req.body.name}); 
@@ -88,6 +99,9 @@ router.post('/session', async (req,res) =>{
     }
 });
 
+/*
+*RUTA CON METODO POST PARA EL INICIO DE SESION
+*/
 router.post('/signup', async (req,res)=>{
     const { name, email, password } = req.body;
     //BUSCA EN LA BBDD SI EXISTE UN USUARIO Y UN EMAIL CON LOS PASADOS
@@ -118,8 +132,9 @@ router.post('/signup', async (req,res)=>{
             "room":{},
             "image": "caro-asercion/prank-glasses.svg"
         };
-       
         await newUser.save();
+        
+        //MODULO PARA EL ENVIO DE CORREO, AQUI SE ESTABLECE EL SERVICIO Y EL HOST
         const transport = nodemailer.createTransport({
             host:'smtp.gmail.com',
             port:465,
@@ -129,6 +144,8 @@ router.post('/signup', async (req,res)=>{
               pass: "fjkdbbsktvqyuvsk"
             }
         });
+
+        //DATOS DE ENVIO DEL EMAIL
         await transport.sendMail({
             from:"bienvenida",
             to:newUser.email,
@@ -140,12 +157,17 @@ router.post('/signup', async (req,res)=>{
     }
 });
 
+/*
+*RUTA CON METODO POST PARA LA PETICION DE EL CAMBIO DE CONTRASEÑA
+*/
 router.post('/passwordreq', async (req,res) => {
     const { name } = req.body;
     const fuser = await User.findOne({name:name});
+    //SI NO EXISTE EL USUARIO ENVIA UN MENSAJE DE ERROR
     if(!fuser){
         res.send('error');
     }else{
+        //SI EXISTE ENVIA UN EMAIL AL CORREO DEL USUARIO PARA REDIRIGIRLE AL CAMBIO DE CONTRASEÑA
         res.send('ok');
         const transport = nodemailer.createTransport({
             host:'smtp.gmail.com',
@@ -166,9 +188,13 @@ router.post('/passwordreq', async (req,res) => {
     }
 });
 
+/*
+*RUTA CON METODO POST PARA EL CAMBIO DE CONTRASEÑA
+*/
 router.post('/passwordres', async (req,res) => {
     const { name, password, password2 } = req.body;
     const fuser = await User.findOne({name:name});
+    //SI EXISTE LA CONTRASEÑA Y COINCIDE CON SU CONTRASEÑA ACTUALIZA ESTA
     if(fuser){
         if(bcrypt.compareSync(password,fuser.password)){
             const user = User({
@@ -183,19 +209,14 @@ router.post('/passwordres', async (req,res) => {
                 fuser.delete();
                 res.send("ok");
         }else{
+            //SI NO COINCIDEN LAS CONTRASEÑAS ENVIA UN MENSAJE DE ERROR
             res.send("error");
         }
         
     }else{
+        //SI NO EXISTE EL USUARIO ENVIA UN MENSAJE DE ERROR
         res.send('error2');
     }
-});
-
-
-router.post('/', (req,res) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.send('funciona');
-    console.log(req.body);
 });
 
 
