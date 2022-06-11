@@ -129,15 +129,11 @@ router.post('/signup', async (req,res)=>{
               pass: "fjkdbbsktvqyuvsk"
             }
         });
-    
-        transport.verify().then(() =>{
-            console.log('listo para enviar correo');
-        });
         await transport.sendMail({
             from:"bienvenida",
             to:newUser.email,
             subject: "Bienvenid@!",
-            text: "Bienvenid@ a el juego! Esperemos que te lo pases bien!"
+            text: "Bienvenid@"+newUser.name+". Este es un correo automático de confirmación, si quieres seguir jugando accede a este link"
         }); 
         return res.send(JSON.stringify(newUser.session));
     }
