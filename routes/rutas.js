@@ -9,7 +9,6 @@ const skills = require('../models/skills');
 const equpments = require('../models/equipments');
 const helps = require('../models/helps');
 const nodemailer = require('nodemailer');
-const emailer = require('../nodemailer/emailer');
 const router = express.Router();
 
 //RUTAS GET 
