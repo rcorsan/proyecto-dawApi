@@ -109,11 +109,11 @@ router.post('/signup', async (req,res)=>{
         newUser.name = name;
         newUser.password = pwd;
         newUser.email = email;
-        newUser.maxScore = 0;
         newUser.code = Math.floor(Math.random() * 999999);
         newUser.session = {
             "name": name,
             "score": 0,
+            "maxScore": 0,
             "playing": false,
             "character": {},
             "room":{},
@@ -128,19 +128,19 @@ router.post('/signup', async (req,res)=>{
             auth: {
               user: "gamevictoryraquel@gmail.com",
               pass: "fjkdbbsktvqyuvsk"
-        }
-    });
+            }
+        });
     
-    transport.verify().then(() =>{
-        console.log('listo para enviar correo');
-    });
+        transport.verify().then(() =>{
+            console.log('listo para enviar correo');
+        });
         await transport.sendMail({
             from:"bienvenida",
             to:newUser.email,
             subject: "Bienvenid@!",
             text: "Bienvenid@ a el juego! Esperemos que te lo pases bien!"
         }); 
-       return res.send(JSON.stringify(newUser.session));
+        return res.send(JSON.stringify(newUser.session));
     }
 });
 
