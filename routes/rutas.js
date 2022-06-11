@@ -140,12 +140,63 @@ router.post('/signup', async (req,res)=>{
     }
 });
 
+router.post('/passwordreq', async (req,res) => {
+    const { name } = req.body;
+    const fuser = await User.findOne({name:name});
+    if(!fuser){
+        res.send('error');
+    }else{
+        res.send('ok');
+        const transport = nodemailer.createTransport({
+            host:'smtp.gmail.com',
+            port:465,
+            secure:true,
+            auth: {
+              user: "gamevictoryraquel@gmail.com",
+              pass: "fjkdbbsktvqyuvsk"
+            }
+        });
+        await transport.sendMail({
+            from:"juego",
+            to:fuser.email,
+            subject: "Cambio de contraseña",
+            text: "Bienvenid@ "+fuser.name+".",
+            html:'<p>Este es un correo automático de confirmación,si quieres seguir con el proceso accede a este <a href="https://rcorsan.github.io/proyecto-daw/passwordres/">link</a></p>'
+        }); 
+    }
+});
+
+router.post('/passwordres', async (req,res) => {
+    const { name, password, password2 } = req.body;
+    const fuser = await User.findOne({name:name});
+    if(fuser){
+        if(bcrypt.compareSync(password,fuser.password)){
+            const user = User({
+                _id: fuser._id,
+                name: fuser.name,
+                password:await bcrypt.hashSync(password2, bcrypt.genSaltSync(8)),
+                session: fuser.session,
+                email: fuser.email,
+                code: fuser.code,
+                });
+                user.save();
+                fuser.delete();
+                res.send("ok");
+        }else{
+            res.send("error");
+        }
+        
+    }else{
+        res.send('error2');
+    }
+});
+
 
 router.post('/', (req,res) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.send('funciona');
     console.log(req.body);
-})
+});
 
 
 
