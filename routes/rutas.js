@@ -13,9 +13,7 @@ const helps = require('../models/helps');
 const nodemailer = require('nodemailer');
 const router = express.Router();
 
-/*
-*RUTAS CON METODO GET 
-*/
+
 
 router.get('/', (req,res)=>{
     res.send('pagina principal');
@@ -24,7 +22,6 @@ router.get('/', (req,res)=>{
 /*
 *RUTAS CON METODO GET PARA EL ENVIO DE DATOS DESDE LA BBDD
 */
-
 router.get('/consumables', async (req,res)=>{
     //FIND DEVUELVE TODOS LOS DATOS ALMACENADOS EN LA COLECCION PASADA, EN ESTE CASO CONSUMABLES
     const fcon= await consumables.find();
@@ -79,7 +76,6 @@ router.post('/login', async (req,res)=>{
 /*
 *METODO PARA ACTUALIZAR LA SESSION
 */
-
 router.post('/session', async (req,res) =>{
     res.header('Access-Control-Allow-Origin', '*');
     const fuser = await User.findOne({name: req.body.name}); 
