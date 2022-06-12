@@ -1,5 +1,5 @@
 /*
-*IMPORTAR MODULOS Y MODELOS REQUERIDOS 
+*IMPORTAR PAQUETES Y MODELOS REQUERIDOS 
 */
 
 const express = require('express');
@@ -188,15 +188,14 @@ router.post('/passwordreq', async (req,res) => {
 *RUTA CON METODO POST PARA EL CAMBIO DE CONTRASEÑA
 */
 router.post('/passwordres', async (req,res) => {
-    const { name, password, password2 } = req.body;
+    const { name, password } = req.body;
     const fuser = await User.findOne({name:name});
     //SI EXISTE LA CONTRASEÑA Y COINCIDE CON SU CONTRASEÑA ACTUALIZA ESTA
     if(fuser){
-        if(bcrypt.compareSync(password,fuser.password)){
             const user = User({
                 _id: fuser._id,
                 name: fuser.name,
-                password:await bcrypt.hashSync(password2, bcrypt.genSaltSync(8)),
+                password:await bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
                 session: fuser.session,
                 email: fuser.email,
                 code: fuser.code,
@@ -204,14 +203,9 @@ router.post('/passwordres', async (req,res) => {
                 user.save();
                 fuser.delete();
                 res.send("ok");
-        }else{
-            //SI NO COINCIDEN LAS CONTRASEÑAS ENVIA UN MENSAJE DE ERROR
-            res.send("error");
-        }
-        
     }else{
         //SI NO EXISTE EL USUARIO ENVIA UN MENSAJE DE ERROR
-        res.send('error2');
+        res.send('error');
     }
 });
 
