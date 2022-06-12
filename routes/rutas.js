@@ -89,8 +89,8 @@ router.post('/session', async (req,res) =>{
     maxScore: fuser.maxScore
     });
     if(fuser){
-        user.save();
         fuser.delete();
+        user.save();
         res.send("update");
     }
 });
@@ -188,24 +188,25 @@ router.post('/passwordreq', async (req,res) => {
 *RUTA CON METODO POST PARA EL CAMBIO DE CONTRASEÑA
 */
 router.post('/passwordres', async (req,res) => {
-    const { name, password } = req.body;
+    const { name, password,password2 } = req.body;
     const fuser = await User.findOne({name:name});
     //SI EXISTE LA CONTRASEÑA Y COINCIDE CON SU CONTRASEÑA ACTUALIZA ESTA
-    if(fuser){
-            const user = User({
-                _id: fuser._id,
-                name: fuser.name,
-                password:await bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
-                session: fuser.session,
-                email: fuser.email,
-                code: fuser.code,
-                });
-                user.save();
-                fuser.delete();
-                res.send("ok");
+    if(!fuser){
+        res.send("error");
+    }else if(password!=password2){
+        res.send("error2");
     }else{
-        //SI NO EXISTE EL USUARIO ENVIA UN MENSAJE DE ERROR
-        res.send('error');
+        const user = new User({
+            _id: fuser._id,
+            name: fuser.name,
+            password:await bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
+            session: fuser.session,
+            email: fuser.email,
+            code: fuser.code,
+            });
+            fuser.delete();
+            user.save();
+            res.send("ok");
     }
 });
 
