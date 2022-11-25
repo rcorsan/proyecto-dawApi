@@ -11,6 +11,7 @@ const skills = require('../models/skills');
 const equpments = require('../models/equipments');
 const helps = require('../models/helps');
 const nodemailer = require('nodemailer');
+const { default: authenticateUser } = require('../Middleware/user.middleware');
 const router = express.Router();
 
 
@@ -27,50 +28,43 @@ router.get('/consumables', async (req,res)=>{
     const fcon= await consumables.find();
 
     //ENVIA EN FORMA DE JSON LOS DATOS ENCONTRADOS 
-    res.json(fcon);
+    res.send(fcon);
 });
 router.get('/enemies', async (req,res)=>{
     const fen= await enemies.find();
-    res.json(fen);
+    res.send(fen);
 });
 router.get('/skills', async (req,res)=>{
     const fsk= await skills.find();
-    res.json(fsk);
+    res.send(fsk);
 });
 router.get('/equipments', async (req,res)=>{
     const fequi= await equpments.find();
-    res.json(fequi);
+    res.send(fequi);
 });
 router.get('/helps', async (req,res)=>{
     const fhelp= await helps.find();
-    res.json(fhelp);
+    res.send(fhelp);
 });
 router.get('/users', async (req,res)=>{
     const fuser= await User.find();
-    res.json(fuser);
+    res.send(fuser);
 });
 
 /*
 *RUTAS POST 
 */
 
-router.post('/login', async (req,res)=>{
-    const { name, password } = req.body;
 
-    //ENCUENTRA EN LA BBDD EL USUSARIO CON EL NOMBRE PASADO Y LO GUARDA EN UNA VARIABLE
-    const fuser = await User.findOne({name: name});
-    if(fuser){
-        //COMPARA LA CONTRASEÑA PASADA CON LA ENCRIPTADA EN LA BBDD PARA COMPROBAR SI LA CONTRASEÑA ES CORRECTA
-        if(!bcrypt.compareSync(password,fuser.password)){
-            res.send('error');
-        }else{
-            //SI EXISTE EL USUARIO Y LA CONTRASEÑA ES CORRECTA ENVIA LA SESION ALMACENADA EN LA BBDDD
-            res.send(JSON.stringify(fuser.session));
-        }
-    }else{
-        //SI NO EXITE EL USUARIO ENVIA UN MENSAJE DE ERROR
-        res.send('error');
-    }
+// Usar la middleware authenticatUser para quitar todo el boilerplate de autenticación
+router.post('/login' , authenticateUser , async (req,res)=>{
+
+    // Si la middleware ejecuta y hemos llegado aquí, el usuario está autenticado y puedes acceder lo con req.user
+    // Si ves en user.middleware.js el req.user = user; antes de la funcion next()
+
+    const fuser = req.user;
+    res.send(fuser.session);
+ 
 });
 
 /*
@@ -79,20 +73,13 @@ router.post('/login', async (req,res)=>{
 router.post('/session', async (req,res) =>{
     res.header('Access-Control-Allow-Origin', '*');
     const fuser = await User.findOne({name: req.body.name}); 
-    const user = User({
-    _id: fuser._id,
-    name: fuser.name,
-    password: fuser.password,
-    session: req.body,
-    email: fuser.email,
-    code: fuser.code,
-    maxScore: fuser.maxScore
-    });
-    if(fuser){
-        fuser.delete();
-        user.save();
-        res.send("update");
+    if(!fuser){
+        res.status(404).send('404 Not found');
+        return;
     }
+    fuser.session = req.body;
+    await fuser.save();
+    res.send(fuser);
 });
 
 /*
